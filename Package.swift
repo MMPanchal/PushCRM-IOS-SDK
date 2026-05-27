@@ -3,12 +3,29 @@ import PackageDescription
 
 let package = Package(
     name: "PushCRM",
-    platforms: [.iOS(.v13)],
+    platforms: [
+        .iOS(.v13),
+        .macOS(.v12)
+    ],
     products: [
-        .library(name: "PushCRM", targets: ["PushCRM"])
+        .library(
+            name: "PushCRM",
+            targets: ["PushCRM"]
+        )
     ],
     targets: [
-        .target(name: "PushCRM", path: "Sources/PushCRM"),
-        .testTarget(name: "PushCRMTests", dependencies: ["PushCRM"], path: "Tests/PushCRMTests")
-    ]
+        .target(
+            name: "PushCRM",
+            path: "Sources/PushCRM",
+            swiftSettings: [
+                .define("PUSHCRM_SPM")
+            ]
+        ),
+        .testTarget(
+            name: "PushCRMTests",
+            dependencies: ["PushCRM"],
+            path: "Tests/PushCRMTests"
+        )
+    ],
+    swiftLanguageVersions: [.v5]
 )
