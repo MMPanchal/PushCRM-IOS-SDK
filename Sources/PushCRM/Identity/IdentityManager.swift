@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
 /// Manages user identity and device registration
 final class IdentityManager {
@@ -29,12 +31,19 @@ final class IdentityManager {
     }
 
     private func registerDeviceIfNeeded() {
+        var osVersion = "unknown"
+        var model = "unknown"
+        #if canImport(UIKit)
+        osVersion = UIDevice.current.systemVersion
+        model = UIDevice.current.model
+        #endif
+
         let body: [String: Any] = [
             "deviceId": storage.deviceId,
             "platform": "ios",
-            "osVersion": UIDevice.current.systemVersion,
+            "osVersion": osVersion,
             "appVersion": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "",
-            "model": UIDevice.current.model
+            "model": model
         ]
 
         networkClient.post(endpoint: .register, body: body) { _ in }
