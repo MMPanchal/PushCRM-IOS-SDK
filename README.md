@@ -9,7 +9,7 @@ A lightweight, modular push notification and analytics SDK for iOS applications.
 Add to your `Package.swift`:
 ```swift
 dependencies: [
-    .package(url: "https://github.com/your-org/PushCRM-iOS.git", from: "1.0.0")
+    .package(url: "https://github.com/MMPanchal/PushCRM-IOS-SDK.git", from: "1.0.0")
 ]
 ```
 
