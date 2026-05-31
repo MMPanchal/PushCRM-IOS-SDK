@@ -23,7 +23,7 @@ public struct AuthInterceptor: RequestInterceptor {
 
     public func intercept(request: URLRequest) async throws -> URLRequest {
         var req = request
-        req.setValue(appKey, forHTTPHeaderField: "X-PushCRM-Key")
+        req.setValue(appKey, forHTTPHeaderField: "x-api-key")
         req.setValue("application/json", forHTTPHeaderField: "Accept")
         return req
     }

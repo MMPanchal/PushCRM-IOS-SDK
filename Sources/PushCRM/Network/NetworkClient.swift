@@ -41,7 +41,7 @@ final class NetworkClient {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue(config.appKey, forHTTPHeaderField: "X-PushCRM-Key")
+        request.setValue(config.appKey, forHTTPHeaderField: "x-api-key")
 
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: body)
