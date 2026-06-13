@@ -6,8 +6,29 @@ import PushCRM
 
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
+    @State private var showUserDetail = false
 
     var body: some View {
+        Group {
+            if showUserDetail {
+                UserDetailView(
+                    name: viewModel.form.name,
+                    email: viewModel.form.email.trimmingCharacters(in: .whitespaces).lowercased(),
+                    mobile: viewModel.form.mobile,
+                    onBack: {
+                        showUserDetail = false
+                    }
+                )
+            } else {
+                loginContent
+                    .onAppear {
+                        PushCRMService.shared.trackPageLoad(pageName: "Login")
+                    }
+            }
+        }
+    }
+
+    private var loginContent: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 24) {
@@ -133,6 +154,18 @@ struct LoginView: View {
             .background(Color.gray.opacity(0.1))
             .cornerRadius(12)
 
+            // View Detail button
+            Button(action: { showUserDetail = true }) {
+                Text("View Detail")
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            }
+            .padding(.top, 8)
+
             Button(action: viewModel.reset) {
                 Text("Submit Another")
                     .fontWeight(.semibold)
@@ -142,7 +175,6 @@ struct LoginView: View {
                     .foregroundColor(.white)
                     .cornerRadius(12)
             }
-            .padding(.top, 8)
         }
         .padding(20)
         .background(Color.white)

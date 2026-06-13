@@ -47,6 +47,15 @@ final class PushCRMService {
         print("[PushCRMService] 📊 Tracked 'User Signup' for: \(email)")
     }
 
+    func trackPageLoad(pageName: String) {
+        PushCRM.shared.track(event: "Page Load", properties: [
+            "page_name": pageName,
+            "platform": "iOS"
+        ])
+        PushCRM.shared.flush()
+        print("[PushCRMService] 📊 Tracked 'Page Load' for: \(pageName)")
+    }
+
     func flush() {
         PushCRM.shared.flush()
         print("[PushCRMService] 🔄 Flushed event queue")
