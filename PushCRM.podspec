@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PushCRM'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'Lightweight push notification and analytics SDK for iOS.'
   s.description      = <<-DESC
     PushCRM is an offline-first iOS SDK for push notification management,
