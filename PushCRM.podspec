@@ -8,10 +8,10 @@ Pod::Spec.new do |s|
     retry, and file-based persistence.
   DESC
 
-  s.homepage         = 'https://github.com/your-org/PushCRM-iOS'
+  s.homepage         = 'https://github.com/MMPanchal/PushCRM-IOS-SDK'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Your Org' => 'sdk@your-org.com' }
-  s.source           = { :git => 'https://github.com/your-org/PushCRM-iOS.git', :tag => s.version.to_s }
+  s.author           = { 'PushCRM' => 'sdk@pushcrm.com' }
+  s.source           = { :git => 'https://github.com/MMPanchal/PushCRM-IOS-SDK.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '13.0'
   s.swift_versions        = ['5.9']
