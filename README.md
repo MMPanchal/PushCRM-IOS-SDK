@@ -9,11 +9,31 @@ A lightweight, modular push notification and analytics SDK for iOS applications.
 Add to your `Package.swift`:
 ```swift
 dependencies: [
-    .package(url: "https://github.com/your-org/PushCRM-iOS.git", from: "1.0.0")
+    .package(url: "https://github.com/MMPanchal/PushCRM-IOS-SDK.git", from: "1.0.0")
 ]
 ```
 
+Then add the dependency to your target:
+```swift
+.target(
+    name: "YourApp",
+    dependencies: ["PushCRM"]
+)
+```
+
 Or in Xcode: File → Add Package Dependencies → Enter repository URL.
+
+### CocoaPods
+
+Add to your `Podfile`:
+```ruby
+pod 'PushCRM', '~> 1.0'
+```
+
+Then run:
+```bash
+pod install
+```
 
 ## Quick Start
 
@@ -270,6 +290,116 @@ queue.stop()   // Persist + cancel timer (call on app background)
 - EventStore uses Swift actor isolation for atomic file operations
 - StorageManager uses dedicated file queue for I/O
 - APIClient is `Sendable`-conformant for structured concurrency
+
+## Distribution
+
+### Publishing via Swift Package Manager
+
+SPM uses Git tags for versioning. No registry upload is needed.
+
+**Steps to release a new version:**
+
+```bash
+# 1. Ensure all changes are committed and tests pass
+swift build
+swift test
+
+# 2. Tag the release with semantic versioning
+git tag 1.0.0
+git push origin 1.0.0
+
+# 3. (Optional) Create a GitHub Release for visibility
+# Go to GitHub → Releases → Draft a new release → Select tag
+```
+
+**Consumers add your package using the repository URL:**
+```swift
+.package(url: "https://github.com/your-org/PushCRM-iOS.git", from: "1.0.0")
+```
+
+**Version bumping:**
+```bash
+# Patch (bug fixes)
+git tag 1.0.1 && git push origin 1.0.1
+
+# Minor (new features, backward compatible)
+git tag 1.1.0 && git push origin 1.1.0
+
+# Major (breaking changes)
+git tag 2.0.0 && git push origin 2.0.0
+```
+
+### Publishing via CocoaPods
+
+**One-time setup:**
+```bash
+# Install CocoaPods (if not installed)
+sudo gem install cocoapods
+
+# Register your CocoaPods trunk account
+pod trunk register sdk@your-org.com 'Your Org' --description='PushCRM SDK'
+```
+
+**Steps to release a new version:**
+
+```bash
+# 1. Update version in PushCRM.podspec
+# s.version = '1.0.0'
+
+# 2. Validate the podspec
+pod spec lint PushCRM.podspec --allow-warnings
+
+# 3. Commit, tag, and push
+git add -A
+git commit -m "chore: release 1.0.0"
+git tag 1.0.0
+git push origin main --tags
+
+# 4. Push to CocoaPods trunk (public registry)
+pod trunk push PushCRM.podspec --allow-warnings
+```
+
+**Private CocoaPods repo (enterprise):**
+```bash
+# Add your private spec repo
+pod repo add your-org-specs https://github.com/your-org/Specs.git
+
+# Push to private repo instead of trunk
+pod repo push your-org-specs PushCRM.podspec --allow-warnings
+```
+
+Consumers add the private source to their Podfile:
+```ruby
+source 'https://github.com/your-org/Specs.git'
+source 'https://cdn.cocoapods.org/'
+
+pod 'PushCRM', '~> 1.0'
+```
+
+### Release Checklist
+
+| Step | SPM | CocoaPods |
+|------|-----|-----------|
+| Update version | Git tag | `.podspec` version + Git tag |
+| Run tests | `swift test` | `pod spec lint` |
+| Push code | `git push` | `git push --tags` |
+| Publish | Automatic (tag-based) | `pod trunk push` |
+| Verify | Add package in Xcode | `pod install` in consumer project |
+
+### Project Structure for Distribution
+
+```
+PushCRM-iOS-SDK/
+├── Package.swift          # SPM manifest
+├── PushCRM.podspec        # CocoaPods spec
+├── LICENSE                # Required by CocoaPods
+├── README.md
+├── Sources/
+│   └── PushCRM/           # All SDK source files
+├── Tests/
+│   └── PushCRMTests/      # Unit tests
+└── Example/               # Example app
+```
 
 ## Requirements
 

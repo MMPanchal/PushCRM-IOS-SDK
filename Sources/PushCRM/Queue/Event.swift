@@ -11,6 +11,15 @@ public struct Event: Codable, Identifiable, Sendable {
     public let timestamp: Date
     public var retryCount: Int
 
+    enum CodingKeys: String, CodingKey {
+        case id, name, properties
+        case deviceId = "deviceId"
+        case userId = "userId"
+        case sessionId = "sessionId"
+        case timestamp
+        case retryCount = "retryCount"
+    }
+
     public init(
         name: String,
         properties: [String: Any],
@@ -64,10 +73,46 @@ public struct AnyCodable: Codable, Sendable {
     }
 }
 
+/// Server-format event for API payload (maps "name" → "event", excludes internal fields)
+struct ServerEvent: Encodable {
+    let event: String
+    let properties: [String: AnyCodable]
+    let deviceId: String
+    let userId: String?
+    let sessionId: String?
+    let timestamp: Date
+
+    enum CodingKeys: String, CodingKey {
+        case event, properties, timestamp
+        case deviceId = "deviceId"
+        case userId = "userId"
+        case sessionId = "sessionId"
+    }
+
+    init(from event: Event) {
+        self.event = event.name
+        self.properties = event.properties
+        self.deviceId = event.deviceId
+        self.userId = event.userId
+        self.sessionId = event.sessionId
+        self.timestamp = event.timestamp
+    }
+}
+
 /// Batch payload sent to the server
 struct EventBatchPayload: Encodable {
-    let events: [Event]
+    let events: [ServerEvent]
     let deviceId: String
+
+    enum CodingKeys: String, CodingKey {
+        case events
+        case deviceId = "deviceId"
+    }
+
+    init(events: [Event], deviceId: String) {
+        self.events = events.map { ServerEvent(from: $0) }
+        self.deviceId = deviceId
+    }
 }
 
 /// Server response for event batch upload

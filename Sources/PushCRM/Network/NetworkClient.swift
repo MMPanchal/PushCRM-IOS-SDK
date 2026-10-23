@@ -41,10 +41,15 @@ final class NetworkClient {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue(config.appKey, forHTTPHeaderField: "X-PushCRM-Key")
+        request.setValue(config.appKey, forHTTPHeaderField: "x-api-key")
 
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: body)
+            #if DEBUG
+            if let bodyStr = String(data: request.httpBody!, encoding: .utf8) {
+                print("[PushCRM Network] → \(endpoint.rawValue) Body: \(bodyStr.prefix(1000))")
+            }
+            #endif
         } catch {
             completion(.failure(error))
             return
@@ -66,6 +71,12 @@ final class NetworkClient {
             }
 
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+
+            #if DEBUG
+            if let data, let responseStr = String(data: data, encoding: .utf8) {
+                print("[PushCRM Network] ← \(statusCode) \(endpoint.rawValue) Response: \(responseStr.prefix(500))")
+            }
+            #endif
 
             guard (200...299).contains(statusCode) else {
                 let apiError = APIError(statusCode: statusCode, message: "HTTP \(statusCode)")
