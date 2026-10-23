@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.author           = { 'PushCRM' => 'sdk@pushcrm.com' }
   s.source           = { :git => 'https://github.com/MMPanchal/PushCRM-IOS-SDK.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '13.0'
+  s.ios.deployment_target = '15.0'
   s.swift_versions        = ['5.9']
 
   s.source_files = 'Sources/PushCRM/**/*.swift'
