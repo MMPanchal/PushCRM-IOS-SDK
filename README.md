@@ -9,7 +9,7 @@ A lightweight, modular push notification and analytics SDK for iOS applications.
 Add to your `Package.swift`:
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MMPanchal/PushCRM-IOS-SDK.git", from: "1.0.0")
+    .package(url: "https://github.com/MMPanchal/PushCRM-IOS-SDK.git", from: "1.0.1")
 ]
 ```
 
@@ -21,7 +21,10 @@ Then add the dependency to your target:
 )
 ```
 
-Or in Xcode: File → Add Package Dependencies → Enter repository URL.
+Or in Xcode: **File → Add Package Dependencies** → enter:
+```
+https://github.com/MMPanchal/PushCRM-IOS-SDK
+```
 
 ### CocoaPods
 
@@ -314,7 +317,7 @@ git push origin 1.0.0
 
 **Consumers add your package using the repository URL:**
 ```swift
-.package(url: "https://github.com/your-org/PushCRM-iOS.git", from: "1.0.0")
+.package(url: "https://github.com/MMPanchal/PushCRM-IOS-SDK.git", from: "1.0.1")
 ```
 
 **Version bumping:**
@@ -337,7 +340,7 @@ git tag 2.0.0 && git push origin 2.0.0
 sudo gem install cocoapods
 
 # Register your CocoaPods trunk account
-pod trunk register sdk@your-org.com 'Your Org' --description='PushCRM SDK'
+pod trunk register panchalmitesh36@gmail.com 'PushCRM'
 ```
 
 **Steps to release a new version:**
